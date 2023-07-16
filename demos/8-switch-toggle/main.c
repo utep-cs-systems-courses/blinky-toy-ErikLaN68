@@ -17,6 +17,7 @@ void main(void)
 {
   __enable_interrupt();
   configureClocks();
+  enableWDTInterrupts();
 
   P1DIR |= LEDS;
   P1OUT &= ~LEDS;		/* leds initially off */
@@ -31,6 +32,9 @@ void main(void)
 
 //Used for the state of switch
 char lightState = upOff;
+char green = 0;
+char red = 0;
+char pressCount = 0;
 
 //Counts to 1000 to stop switch bounce
 void
@@ -46,16 +50,20 @@ counter()
 void
 both_lights_on()
 {
-  P1OUT |= LED_GREEN;
-  P1OUT |= LED_RED;
+  //P1OUT |= LED_GREEN;
+  //P1OUT |= LED_RED;
+  green = 1;
+  red = 1;
 }
 
 //Turns the lights off
 void
 both_lights_off()
 {
-  P1OUT &= ~LED_GREEN;
-  P1OUT &= ~LED_RED;
+  //P1OUT &= ~LED_GREEN;
+  //P1OUT &= ~LED_RED;
+  green = 0;
+  red = 0;
 }
 
 //State machine for when the switch goes up
@@ -102,6 +110,7 @@ switch_interrupt_handler()
   //Checks that SW1 was pressed and then turns the lights either on or off
   if (p1val & SW1) {
     if (lightState == upOff || lightState == upOn) {
+      pressCount++;
       down();
     }
     if (lightState == dnOn || lightState == dnOff) {
@@ -127,3 +136,43 @@ __interrupt_vec(PORT1_VECTOR) Port_1(){
   //Turns the interrupt of the switches back on
   P1IE |= SWITCHES; 
 }
+
+void
+blink_state()
+{
+  if (pressCount == 1) {
+    
+    if (green & red) {
+      P1OUT ^= LED_GREEN;
+      P1OUT &= ~LED_RED;
+    }
+    else {
+      P1OUT &= ~LED_GREEN;
+      P1OUT &= ~LED_RED;
+    }
+    
+  }
+  else {
+    
+    if (green & red) {
+      P1OUT ^= LED_GREEN;
+      P1OUT ^= LED_RED;
+    }
+    else {
+      P1OUT &= ~LED_GREEN;
+      P1OUT &= ~LED_RED;
+    }
+  }
+
+  if (pressCount == 4) {
+    pressCount = 0;
+  }
+  
+}
+
+void
+__interrupt_vec(WDT_VECTOR) WDT()
+{
+  blink_state();
+}
+
