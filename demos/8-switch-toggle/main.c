@@ -29,8 +29,20 @@ void main(void)
   or_sr(0x18);  // CPU off, GIE on
 } 
 
+//Used for the state of switch
 char lightState = upOff;
 
+//Counts to 1000 to stop switch bounce
+void
+counter()
+{
+  int count = 0;
+  while (count <1000) {
+    count++;
+  }
+}
+
+//Turns the lights on
 void
 both_lights_on()
 {
@@ -38,6 +50,7 @@ both_lights_on()
   P1OUT |= LED_RED;
 }
 
+//Turns the lights off
 void
 both_lights_off()
 {
@@ -45,30 +58,33 @@ both_lights_off()
   P1OUT &= ~LED_RED;
 }
 
+//State machine for when the switch goes up
 void
 up()
 {
+  //keeps track of the up states
   switch (lightState) {
   case dnOn:
     lightState = upOn;
-    //both_lights_off();
     break;
   case dnOff:
     lightState = upOff;
-    //both_lights_off();
     break;
   }
 }
 
+//State machine for when the switch goes down
 void
 down()
 {
   switch (lightState) {
   case upOff:
+    //if the lights were off when switch up then lights on
     lightState = dnOn;
     both_lights_on();
     break;
   case upOn:
+    //If lights were on when switch up then ligths off
     lightState = dnOff;
     both_lights_off();
     break;
@@ -83,6 +99,7 @@ switch_interrupt_handler()
   P1IES |= (p1val & SWITCHES);	/* if switch up, sense down */
   P1IES &= (p1val | ~SWITCHES);	/* if switch down, sense up */
 
+  //Checks that SW1 was pressed and then turns the lights either on or off
   if (p1val & SW1) {
     if (lightState == upOff || lightState == upOn) {
       down();
@@ -94,19 +111,19 @@ switch_interrupt_handler()
   
 }
 
-/* Switch on P1 (S2) */
 void
 __interrupt_vec(PORT1_VECTOR) Port_1(){
-  if (P1IFG & SWITCHES) { /* did a button cause this interrupt? */
-    P1IFG &= ~SWITCHES;   /* clear pending sw interrupts */
-    switch_interrupt_handler();	/* single handler for all switches */
-    TA0R = 0;
-    TA0CTL |= MC_1;
+  //Checks the port 1 interrupt flag with switch bits to see if a switch caused it
+  if (P1IFG & SWITCHES) {
+    //counts an int up to 1000 to help with switch bounce
+    counter();
+    //Sets the port 1 interrupt to check for another interrupt
+    P1IFG &= ~SWITCHES;
+    //Goes to the switch_interrupt_handler
+    switch_interrupt_handler();
+    //Turns the interrupt off for the switches to stop switch bounce
+    P1IE &= ~SWITCHES;
   }
-}
-
-__interrupt void Timer_A(void)
-{
-  TA0CTL &= ~MC_3;
-  P1IE |= SWITCHES;
+  //Turns the interrupt of the switches back on
+  P1IE |= SWITCHES; 
 }
