@@ -8,6 +8,10 @@
 
 #define SWITCHES (SW1 | SW2 | SW3 | SW4)   /* 4 switchs on top board */
 
+void switch_init();
+void switch_interrupt_handler();
+
+extern char ligthSate;
 extern char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
 
 #endif

@@ -7,6 +7,9 @@
 
 extern char green, red;
 
+
 void led_init();
+void both_leds_on();
+void both_leds_off();
 
 #endif
