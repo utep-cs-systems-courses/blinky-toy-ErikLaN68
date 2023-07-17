@@ -2,7 +2,7 @@
 #include "statemachine.h"
 #include "led.h"
 #include "switches.h"
-//#include "buzzer.h"
+#include "buzzer.h"
 
 char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
 char lightState;
@@ -17,9 +17,15 @@ state_update()
   }
   else if (switchDown2) {
     P1OUT |= LED_GREEN;
+    P1OUT &= ~LED_RED;
   }
   else if (switchDown4) {
+    P1OUT &= ~LED_GREEN;
     P1OUT |= LED_RED;
+  }
+  else if (switchDown3) {
+    both_leds_on();
+    buzzer_set_period(1000);
   }
   else {
     P1OUT &= ~LED_GREEN;
