@@ -5,7 +5,7 @@
 //#include "buzzer.h"
 
 char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
-char lightState = upOff;
+char lightState;
 
 void
 state_update()
@@ -13,7 +13,17 @@ state_update()
   if (switchDown1) {
     P1OUT |= LED_GREEN;
     P1OUT |= LED_RED;
-    light_state_check_sw1();
+    //light_state_check_sw1();
+  }
+  else if (switchDown2) {
+    P1OUT |= LED_GREEN;
+  }
+  else if (switchDown4) {
+    P1OUT |= LED_RED;
+  }
+  else {
+    P1OUT &= ~LED_GREEN;
+    P1OUT &= ~LED_RED;
   }
 }
 
