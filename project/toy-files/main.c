@@ -3,7 +3,7 @@
 #include "led.h"
 #include "statemachine.h"
 #include "switches.h"
-#include "buzzer.c"
+#include "buzzer.h"
 
 void
 main(void)
