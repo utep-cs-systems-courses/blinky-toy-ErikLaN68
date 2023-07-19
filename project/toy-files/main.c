@@ -5,14 +5,17 @@
 #include "switches.h"
 #include "buzzer.h"
 
-void
-main(void)
+int main(void)
 {
+  //sets the clock up
   configureClocks();
+  //sets the leds up but does not give them a value
   led_init();
+  //sets the switches to take input
   switch_init();
+  //sets the buzzer up to make noise
   buzzer_init();
-  //buzzer_set_period(1000);
+  //enables the interrupts
   enableWDTInterrupts();
   
   or_sr(0x18);  // CPU off, GIE on

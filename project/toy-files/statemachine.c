@@ -7,25 +7,30 @@
 char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
 char lightState;
 
+//Getting error where the program thinks the switch is still down when pressed multiple times.
+//Need to make a statemachine to handle this that works as a toggle for all the switchs
 void
 state_update()
 {
   if (switchDown1) {
+    play_song(500);
     P1OUT |= LED_GREEN;
     P1OUT |= LED_RED;
     //light_state_check_sw1();
   }
   else if (switchDown2) {
+    play_song(475);
     P1OUT |= LED_GREEN;
     P1OUT &= ~LED_RED;
   }
-  else if (switchDown4) {
+  else if (switchDown3) {
+    play_song(450);
     P1OUT &= ~LED_GREEN;
     P1OUT |= LED_RED;
   }
-  else if (switchDown3) {
+  else if (switchDown4) {
+    play_song(400);
     both_leds_on();
-    buzzer_set_period(1000);
   }
   else {
     P1OUT &= ~LED_GREEN;
