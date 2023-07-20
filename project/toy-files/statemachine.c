@@ -13,22 +13,31 @@ void
 state_update()
 {
   if (switchDown1) {
-    play_song(500);
+    state_machine_1(0);
+    /*play_song(500);
     P1OUT |= LED_GREEN;
-    P1OUT |= LED_RED;
+    P1OUT |= LED_RED; */
     //light_state_check_sw1();
+    //P1OUT &= ~LED_GREEN;
+    //P1OUT &= ~LED_RED;
   }
   else if (switchDown2) {
+    //state_machine_1(1);
+    //buzzer_on();
     play_song(475);
     P1OUT |= LED_GREEN;
     P1OUT &= ~LED_RED;
   }
   else if (switchDown3) {
+    //state_machine_1(1);
+    //buzzer_on();
     play_song(450);
     P1OUT &= ~LED_GREEN;
     P1OUT |= LED_RED;
   }
   else if (switchDown4) {
+    //state_machine_1(1);
+    //buzzer_on();
     play_song(400);
     both_leds_on();
   }
@@ -81,4 +90,29 @@ light_state_check_sw1()
   if (lightState == dnOn || lightState == dnOff) {
     up();
   }
+}
+
+void
+state_machine_1(char stop)
+{
+  short count = 1500;
+  char smallCount = 0;
+  while (count > 0) {
+    if (smallCount < 50){
+      play_song(15000);
+    }
+    else {
+      play_song(13000);
+      if (smallCount == 100) {
+	smallCount = 0;
+      }
+    }
+    P1OUT ^= LED_GREEN;
+    P1OUT ^= LED_RED;
+    count--;
+    smallCount++;
+  }
+  P1OUT &= ~LED_GREEN;
+  P1OUT &= ~LED_RED;
+  return;
 }

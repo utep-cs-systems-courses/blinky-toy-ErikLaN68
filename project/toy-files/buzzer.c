@@ -28,9 +28,22 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
 //Needed because when button is just pressed it doesn't leave enough time to play sound
 void play_song(short cycles)
 {
-  short count = 25000;
+  //was 25000
+  short count = 2000;
   while (count > 0) {
     buzzer_set_period(cycles);
     count--;
   }
+}
+
+//Turns buzzer off
+void buzzer_off()
+{
+  P2DIR &= ~BIT6;
+}
+
+//Turns buzzer on
+void buzzer_on()
+{
+  P2DIR = BIT6;
 }

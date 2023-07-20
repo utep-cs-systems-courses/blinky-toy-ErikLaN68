@@ -10,5 +10,6 @@ extern char lightState;
 
 void state_update();
 void light_state_check_sw1();
+void state_machine_1(char stop);
 
 #endif

@@ -34,8 +34,7 @@ switch_interrupt_handler()
   switchDown2 = (p2val & SW2) ? 0 : 1;
   switchDown3 = (p2val & SW3) ? 0 : 1;
   switchDown4 = (p2val & SW4) ? 0 : 1;
-  
+
   state_update();
-  
   switchChanged = 1;
 }
