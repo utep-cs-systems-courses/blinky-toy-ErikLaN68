@@ -13,7 +13,7 @@ void
 state_update()
 {
   if (switchDown1) {
-    state_machine_1(0);
+    state_machine_1();
     /*play_song(500);
     P1OUT |= LED_GREEN;
     P1OUT |= LED_RED; */
@@ -22,11 +22,11 @@ state_update()
     //P1OUT &= ~LED_RED;
   }
   else if (switchDown2) {
-    //state_machine_1(1);
+    state_machine_2();
     //buzzer_on();
-    play_song(475);
+    /*play_song(475);
     P1OUT |= LED_GREEN;
-    P1OUT &= ~LED_RED;
+    P1OUT &= ~LED_RED;*/
   }
   else if (switchDown3) {
     //state_machine_1(1);
@@ -93,24 +93,61 @@ light_state_check_sw1()
 }
 
 void
-state_machine_1(char stop)
+state_machine_1()
 {
   short count = 1500;
   char smallCount = 0;
+  char secondCount = 0;
+  short songFr = 15000;
   while (count > 0) {
-    if (smallCount < 50){
-      play_song(15000);
-    }
-    else {
-      play_song(13000);
-      if (smallCount == 100) {
-	smallCount = 0;
+    if (count > 950) {
+      if (smallCount < 50){
+	play_song(15000);
+	P1OUT |= LED_GREEN;
+	P1OUT &= ~LED_RED;
+      }
+      else {
+	play_song(13000);
+	P1OUT &= ~LED_GREEN;
+	P1OUT |= LED_RED;
+	if (smallCount == 100) {
+	  smallCount = 0;
+	}
       }
     }
+    else {
+      play_song(songFr);
+      P1OUT |= LED_GREEN;
+      P1OUT |= LED_RED;
+      if (secondCount == 50) {
+	songFr -= 300;
+	char wait = 200;
+	while (wait > 0) {
+	  P1OUT &= ~LED_GREEN;
+	  P1OUT &= ~LED_RED;
+	  wait--;
+	}
+	secondCount = 0;
+      }
+    }
+    count--;
+    smallCount++;
+    secondCount++;
+  }
+  P1OUT &= ~LED_GREEN;
+  P1OUT &= ~LED_RED;
+  return;
+}
+
+void
+state_machine_2()
+{
+  short count = 25;
+  while (count > 0) {
+    lazer();
     P1OUT ^= LED_GREEN;
     P1OUT ^= LED_RED;
     count--;
-    smallCount++;
   }
   P1OUT &= ~LED_GREEN;
   P1OUT &= ~LED_RED;

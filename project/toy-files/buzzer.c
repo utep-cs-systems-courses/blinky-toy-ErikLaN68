@@ -2,7 +2,8 @@
 #include "libTimer.h"
 #include "buzzer.h"
 
-void buzzer_init()
+void
+buzzer_init()
 {
     /* 
        Direct timer A output "TA0.1" to P2.6.  
@@ -18,7 +19,8 @@ void buzzer_init()
     P2DIR = BIT6;		/* enable output to speaker (P2.6) */
 }
 
-void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k results in 2kHz tone) */
+void
+buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k results in 2kHz tone) */
 {
   //timerAUpmode();
   CCR0 = cycles; 
@@ -26,7 +28,8 @@ void buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k resu
 }
 
 //Needed because when button is just pressed it doesn't leave enough time to play sound
-void play_song(short cycles)
+void
+play_song(short cycles)
 {
   //was 25000
   short count = 2000;
@@ -36,14 +39,27 @@ void play_song(short cycles)
   }
 }
 
+void
+lazer()
+{
+  play_song(4545);
+  play_song(6079);
+  play_song(4545);
+  play_song(4545);
+  play_song(6079);
+  play_song(4545);
+}
+
 //Turns buzzer off
-void buzzer_off()
+void
+buzzer_off()
 {
   P2DIR &= ~BIT6;
 }
 
 //Turns buzzer on
-void buzzer_on()
+void
+buzzer_on()
 {
   P2DIR = BIT6;
 }
