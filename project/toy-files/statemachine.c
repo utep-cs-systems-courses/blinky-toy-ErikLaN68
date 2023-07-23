@@ -38,8 +38,8 @@ state_update()
   else if (switchDown4) {
     //state_machine_1(1);
     //buzzer_on();
-    play_song(400);
-    both_leds_on();
+    play_song(0);
+    both_leds_off();
   }
   else {
     P1OUT &= ~LED_GREEN;
