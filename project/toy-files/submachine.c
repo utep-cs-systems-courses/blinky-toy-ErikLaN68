@@ -82,7 +82,7 @@ sub_machine_3()
   short mainCount = 10000;
   short count = 0;
   while (mainCount > 0) {
-    if (count == 20) {
+    if (count == 100) {
       P1OUT ^= LED_GREEN;
       short_play(1700);
       __delay_cycles(10000);
