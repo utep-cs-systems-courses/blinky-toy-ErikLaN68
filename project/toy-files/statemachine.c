@@ -3,6 +3,7 @@
 #include "led.h"
 #include "switches.h"
 #include "buzzer.h"
+#include "submachine.h"
 
 char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
 char lightState;
@@ -10,88 +11,32 @@ char lightState;
 //Getting error where the program thinks the switch is still down when pressed multiple times.
 //Need to make a statemachine to handle this that works as a toggle for all the switchs
 void
-state_update()
+state_update(char state)
 {
-  if (switchDown1) {
-    state_machine_1();
-    /*play_song(500);
-    P1OUT |= LED_GREEN;
-    P1OUT |= LED_RED; */
-    //light_state_check_sw1();
-    //P1OUT &= ~LED_GREEN;
-    //P1OUT &= ~LED_RED;
-  }
-  else if (switchDown2) {
-    state_machine_2();
-    //buzzer_on();
-    /*play_song(475);
-    P1OUT |= LED_GREEN;
-    P1OUT &= ~LED_RED;*/
-  }
-  else if (switchDown3) {
-    //state_machine_1(1);
-    //buzzer_on();
-    play_song(450);
-    P1OUT &= ~LED_GREEN;
-    P1OUT |= LED_RED;
-  }
-  else if (switchDown4) {
-    //state_machine_1(1);
-    //buzzer_on();
+  switch (state) {
+  case 1:
+    sub_machine_1();
+    state = 0;
+    break;
+  case 2:
+    sub_machine_2();
+    state = 0;
+    break;
+  case 3:
+    sub_machine_3();
+    state = 0;
+    break;
+  case 4:
     play_song(0);
     both_leds_off();
-  }
-  else {
-    P1OUT &= ~LED_GREEN;
-    P1OUT &= ~LED_RED;
-  }
-}
-
-//State machine for when the switch goes up
-void
-up()
-{
-  //keeps track of the up states
-  switch (lightState) {
-  case dnOn:
-    lightState = upOn;
+    state = 0;
     break;
-  case dnOff:
-    lightState = upOff;
+  default:
     break;
   }
 }
 
-//State machine for when the switch goes down
-
-void
-down()
-{
-  switch (lightState) {
-  case upOff:
-    //if the lights were off when switch up then lights on
-    lightState = dnOn;
-    both_leds_on();
-    break;
-  case upOn:
-    //If lights were on when switch up then ligths off
-    lightState = dnOff;
-    both_leds_off();
-    break;
-  }
-}
-
-void
-light_state_check_sw1()
-{
-  if (lightState == upOff || lightState == upOn) {
-    down();
-  }
-  if (lightState == dnOn || lightState == dnOff) {
-    up();
-  }
-}
-
+/*
 void
 state_machine_1()
 {
@@ -121,7 +66,7 @@ state_machine_1()
       P1OUT |= LED_RED;
       if (secondCount == 50) {
 	songFr -= 300;
-	char wait = 200;
+	short wait = 10000;
 	while (wait > 0) {
 	  P1OUT &= ~LED_GREEN;
 	  P1OUT &= ~LED_RED;
@@ -137,12 +82,13 @@ state_machine_1()
   P1OUT &= ~LED_GREEN;
   P1OUT &= ~LED_RED;
   return;
-}
-
+}*/
+ /*
 void
 state_machine_2()
 {
-  short count = 25;
+  play_lazer();
+  char count = 25;
   while (count > 0) {
     lazer();
     P1OUT ^= LED_GREEN;
@@ -152,4 +98,4 @@ state_machine_2()
   P1OUT &= ~LED_GREEN;
   P1OUT &= ~LED_RED;
   return;
-}
+}*/

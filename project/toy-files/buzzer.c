@@ -1,6 +1,7 @@
 #include <msp430.h>
 #include "libTimer.h"
 #include "buzzer.h"
+#include "led.h"
 
 void
 buzzer_init()
@@ -40,21 +41,45 @@ play_song(short cycles)
 }
 
 void
-lazer()
+short_play(short cycles)
 {
-  play_song(4545);
-  play_song(6079);
-  play_song(4545);
-  play_song(4545);
-  play_song(6079);
-  play_song(4545);
+  //was 25000
+  short count = 100;
+  while (count > 0) {
+    buzzer_set_period(cycles);
+    count--;
+  }
 }
+
+void
+lazer(char mult)
+{
+  play_song(4545 * mult);
+  play_song(6079 * mult);
+  play_song(4545 * mult);
+  play_song(4545 * mult);
+  play_song(6079 * mult);
+  play_song(4545 * mult);
+}
+
+/*
+void
+play_lazer()
+{
+  char count = 25;
+  while (count > 0) {
+    lazer();
+    toggle_leds();
+    count--;
+  }
+}*/
 
 //Turns buzzer off
 void
 buzzer_off()
 {
-  P2DIR &= ~BIT6;
+  CCR0 = 0;
+  CCR1 = 0;
 }
 
 //Turns buzzer on

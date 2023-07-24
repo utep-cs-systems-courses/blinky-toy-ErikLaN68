@@ -18,6 +18,27 @@ both_leds_on()
 }
 
 void
+toggle_leds()
+{
+  P1OUT ^= LED_GREEN;
+  P1OUT ^= LED_RED;
+}
+
+void
+only_green()
+{
+  P1OUT |= LED_GREEN;
+  P1OUT &= ~LED_RED;
+}
+
+void
+only_red()
+{
+  P1OUT &= ~LED_GREEN;
+  P1OUT |= LED_RED;
+}
+
+void
 both_leds_off()
 {
   P1OUT &= ~LED_GREEN;

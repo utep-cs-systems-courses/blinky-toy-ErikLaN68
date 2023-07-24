@@ -23,6 +23,7 @@ switch_init()/* setup switch */
   P2OUT |= SWITCHES;/* pull-ups for switches */
   P2DIR &= ~SWITCHES;/* set switches' bits for input */
   switch_update_interrupt_sense();
+  //switch_interrupt_handler();
 }
 
 void
@@ -30,11 +31,19 @@ switch_interrupt_handler()
 {
   //Checks when the switches are up
   char p2val = switch_update_interrupt_sense();
-  switchDown1 = (p2val & SW1) ? 0 : 1;
-  switchDown2 = (p2val & SW2) ? 0 : 1;
-  switchDown3 = (p2val & SW3) ? 0 : 1;
-  switchDown4 = (p2val & SW4) ? 0 : 1;
+  if (p2val & SW1 ? 0 : 1) {
+    state_update(1);
+  }
+  else if (p2val & SW2 ? 0 : 1) {
+    state_update(2);
+  }
+  else if (p2val & SW3 ? 0 : 1) {
+    state_update(3);
+  }
+  else if (p2val & SW4 ? 0 : 1) {
+    state_update(4);
+  }
 
-  state_update();
-  switchChanged = 1;
+  //state_update();
+  //switchChanged = 1;
 }
