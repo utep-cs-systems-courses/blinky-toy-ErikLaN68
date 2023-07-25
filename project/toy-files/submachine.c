@@ -85,14 +85,15 @@ sub_machine_3()
     if (count == 100) {
       P1OUT ^= LED_GREEN;
       short_play(1700);
-      __delay_cycles(10000);
+      __delay_cycles(20000);
       count = 0;
     }
     else {
-      short_play(1000);
+      //short_play(1000);
       P1OUT ^= LED_RED;
     }
     count++;
     mainCount--;
   }
+  short_play(0);
 }
