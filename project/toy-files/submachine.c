@@ -44,6 +44,7 @@ sub_machine_1()
     secondCount++;
   }
   both_leds_off();
+  only_green();
   play_song(0);
 }
 
@@ -73,6 +74,7 @@ sub_machine_2()
     count--;
   }
   both_leds_off();
+  only_red();
   play_song(0);
 }
 
