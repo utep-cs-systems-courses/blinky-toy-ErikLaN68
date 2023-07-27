@@ -1,8 +1,7 @@
 # Blinky Toy
 
 ## To Run
-* First have to run make in the toy-files directory
-* Then run make load with the MSP430 plugged in
+* Have to first run make load with the MSP430 plugged in
 * Start pressing buttons to play with the toy
 
 ## Button 1:
