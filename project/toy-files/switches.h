@@ -11,7 +11,4 @@
 void switch_init();
 void switch_interrupt_handler();
 
-extern char ligthSate;
-extern char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
-
 #endif

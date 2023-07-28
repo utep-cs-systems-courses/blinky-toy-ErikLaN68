@@ -1,9 +1,6 @@
 #include <msp430.h>
 #include "switches.h"
-#include "led.h"
 #include "statemachine.h"
-
-char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
 
 static char
 switch_update_interrupt_sense()
@@ -31,6 +28,7 @@ switch_interrupt_handler()
 {
   //Checks when the switches are up
   char p2val = switch_update_interrupt_sense();
+  //Takes p2val and checks it with a switch to see what was pressed and goes to statemachine
   if (p2val & SW1 ? 0 : 1) {
     state_update(1);
   }
@@ -43,7 +41,4 @@ switch_interrupt_handler()
   else if (p2val & SW4 ? 0 : 1) {
     state_update(4);
   }
-
-  //state_update();
-  //switchChanged = 1;
 }

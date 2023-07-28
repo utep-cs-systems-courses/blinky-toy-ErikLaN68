@@ -29,28 +29,31 @@ buzzer_set_period(short cycles) /* buzzer clock = 2MHz.  (period of 1k results i
 }
 
 //Needed because when button is just pressed it doesn't leave enough time to play sound
+//Plays sound at given cycles number
 void
 play_song(short cycles)
 {
-  //was 25000
   short count = 2000;
+  //Runs while count greater than 2000
   while (count > 0) {
     buzzer_set_period(cycles);
     count--;
   }
 }
 
+//Takes given cycles and plays song for short amount of time
 void
 short_play(short cycles)
 {
-  //was 25000
   short count = 100;
+  //Runs while count greater than 100
   while (count > 0) {
     buzzer_set_period(cycles);
     count--;
   }
 }
 
+//Plays a lazer like sound and can be changed with the variable mult
 void
 lazer(char mult)
 {
@@ -61,18 +64,6 @@ lazer(char mult)
   play_song(6079 * mult);
   play_song(4545 * mult);
 }
-
-/*
-void
-play_lazer()
-{
-  char count = 25;
-  while (count > 0) {
-    lazer();
-    toggle_leds();
-    count--;
-  }
-}*/
 
 //Turns buzzer off
 void

@@ -1,16 +1,6 @@
 #include <msp430.h>
 #include "switches.h"
 
-//Counts to 1000 to stop switch bounce
-void
-counter()
-{
-  short count = 0;
-  while (count <2000) {
-    count++;
-  }
-}
-//Dont think the counter is needed. Without the buttone presses work
 /*Checks to see if a switch was pressed*/
 void
 __interrupt_vec(PORT2_VECTOR) Port_2()
