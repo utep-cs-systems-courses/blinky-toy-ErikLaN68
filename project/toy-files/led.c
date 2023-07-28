@@ -1,7 +1,5 @@
 #include <msp430.h>
 #include "led.h"
-#include "statemachine.h"
-#include "switches.h"
 
 //Sets the leds in the main
 void

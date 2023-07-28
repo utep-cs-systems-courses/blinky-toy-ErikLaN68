@@ -1,7 +1,5 @@
 #include <msp430.h>
 #include "libTimer.h"
-#include "buzzer.h"
-#include "led.h"
 
 void
 buzzer_init()

@@ -1,12 +1,6 @@
 #include <msp430.h>
-//#include "statemachine.h"
-//#include "led.h"
 #include "switches.h"
-//#include "buzzer.h"
 #include "submachine.h"
-
-//char switchDown1,switchDown2,switchDown3,switchDown4,switchChanged;
-//char lightState;
 
 //Takes the given state value and then goes to the correct statemachine
 void
